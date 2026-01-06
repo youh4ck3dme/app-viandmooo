@@ -1,0 +1,74 @@
+{
+  "loginBackground": {
+    "src": "/images/hero-background.jpg",
+    "width": 1920,
+    "height": 1280,
+    "hint": "moving furniture"
+  },
+  "aboutHero": {
+    "src": "/images/about-hero.jpg",
+    "width": 1920,
+    "height": 1080,
+    "hint": "moving team action"
+  },
+  "blogHero": {
+    "src": "/images/blog-hero.jpg",
+    "width": 1920,
+    "height": 1080,
+    "hint": "typing laptop keyboard"
+  },
+  "aboutPacking": {
+    "src": "/images/about-packing.jpg",
+    "width": 800,
+    "height": 600,
+    "hint": "packing fragile items"
+  },
+  "teamMember1": {
+    "src": "/images/team-member-1.jpg",
+    "width": 200,
+    "height": 200,
+    "hint": "man portrait"
+  },
+  "teamMember2": {
+    "src": "/images/team-member-2.jpg",
+    "width": 200,
+    "height": 200,
+    "hint": "woman portrait"
+  },
+  "blogPost1": {
+    "src": "/images/blog-post-1.jpg",
+    "width": 1200,
+    "height": 630,
+    "hint": "moving truck"
+  },
+  "blogPost2": {
+    "src": "/images/blog-post-2.jpg",
+    "width": 1200,
+    "height": 630,
+    "hint": "moving boxes"
+  },
+  "blogPost3": {
+    "src": "/images/blog-post-3.jpg",
+    "width": 1200,
+    "height": 630,
+    "hint": "moving city"
+  },
+  "stahovanieBytovHero": {
+    "src": "/images/stahovanie-bytov-hero.jpg",
+    "width": 1920,
+    "height": 1080,
+    "hint": "apartment moving"
+  },
+  "stahovanieKlavirovHero": {
+    "src": "/images/stahovanie-klavirov-hero.jpg",
+    "width": 1920,
+    "height": 1080,
+    "hint": "piano move"
+  },
+  "vypratavanieHero": {
+    "src": "/images/vypratavanie-hero.jpg",
+    "width": 1920,
+    "height": 1080,
+    "hint": "waste disposal"
+  }
+}

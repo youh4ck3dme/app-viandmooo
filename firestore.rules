@@ -1,0 +1,167 @@
+/**
+ * @fileoverview Firestore Security Rules for the Papi Hair Design application.
+ *
+ * Core Philosophy:
+ * This ruleset enforces a strict user-ownership model for user profiles, appointments, orders, and order items.
+ * Only the authenticated user can read and write their own data. Public read access is allowed for services, stylists, and products.
+ *
+ * Data Structure:
+ * - /users/{userId}: Stores user profile data.  Access is restricted to the owner.
+ * - /services/{serviceId}: Stores information about services. Public read access.
+ * - /stylists/{stylistId}: Stores information about stylists. Public read access.
+ * - /users/{userId}/appointments/{appointmentId}: Stores appointments for a specific user. Access restricted to the user.
+ * - /products/{productId}: Stores product information. Public read access.
+ * - /users/{userId}/orders/{orderId}: Stores orders placed by a user. Access restricted to the user.
+ * - /users/{userId}/orders/{orderId}/orderItems/{orderItemId}: Stores order items for a specific order. Access restricted to the user.
+ *
+ * Key Security Decisions:
+ * - User listing is disallowed to protect user privacy.
+ * - Public read access is granted to /services, /stylists, and /products.
+ * - Data validation is minimal for rapid prototyping. Only authorization-critical fields are validated.
+ * - All write operations are protected by authorization checks based on path-based ownership.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Secure user profiles. Only the authenticated user can access their own profile.
+     * @path /users/{userId}
+     * @allow (create) User with ID 'user123' creates their profile.
+     * @allow (get) User with ID 'user123' reads their profile.
+     * @allow (update) User with ID 'user123' updates their profile.
+     * @allow (delete) User with ID 'user123' deletes their profile.
+     * @deny (create) User with ID 'user123' tries to create a profile with ID 'user456'.
+     * @deny (get) User with ID 'user123' tries to read the profile of user 'user456'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Secure salon services. Public read access is allowed.
+     * @path /services/{serviceId}
+     * @allow (get) Any user can read service details.
+     * @allow (list) Any user can list all services.
+     * @deny (create) No user can create service documents.
+     * @deny (update) No user can update service documents.
+     * @deny (delete) No user can delete service documents.
+     * @principle Public read access with no write access.
+     */
+    match /services/{serviceId} {
+      allow get, list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Secure stylist information. Public read access is allowed.
+     * @path /stylists/{stylistId}
+     * @allow (get) Any user can read stylist details.
+     * @allow (list) Any user can list all stylists.
+     * @deny (create) No user can create stylist documents.
+     * @deny (update) No user can update stylist documents.
+     * @deny (delete) No user can delete stylist documents.
+     * @principle Public read access with no write access.
+     */
+    match /stylists/{stylistId} {
+      allow get, list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Secure appointments. Only the authenticated user can access their own appointments.
+     * @path /users/{userId}/appointments/{appointmentId}
+     * @allow (create) User with ID 'user123' creates an appointment for themselves.
+     * @allow (get) User with ID 'user123' reads their appointment.
+     * @allow (update) User with ID 'user123' updates their appointment.
+     * @allow (delete) User with ID 'user123' deletes their appointment.
+     * @deny (create) User with ID 'user123' tries to create an appointment for user 'user456'.
+     * @deny (get) User with ID 'user123' tries to read the appointment of user 'user456'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/appointments/{appointmentId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && resource.data.userId == userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Secure product information. Public read access is allowed.
+     * @path /products/{productId}
+     * @allow (get) Any user can read product details.
+     * @allow (list) Any user can list all products.
+     * @deny (create) No user can create product documents.
+     * @deny (update) No user can update product documents.
+     * @deny (delete) No user can delete product documents.
+     * @principle Public read access with no write access.
+     */
+    match /products/{productId} {
+      allow get, list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    /**
+     * @description Secure orders. Only the authenticated user can access their own orders.
+     * @path /users/{userId}/orders/{orderId}
+     * @allow (create) User with ID 'user123' creates an order for themselves.
+     * @allow (get) User with ID 'user123' reads their order.
+     * @allow (update) User with ID 'user123' updates their order.
+     * @allow (delete) User with ID 'user123' deletes their order.
+     * @deny (create) User with ID 'user123' tries to create an order for user 'user456'.
+     * @deny (get) User with ID 'user123' tries to read the order of user 'user456'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/orders/{orderId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && resource.data.userId == userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Secure order items. Only the authenticated user can access order items within their own orders.
+     * @path /users/{userId}/orders/{orderId}/orderItems/{orderItemId}
+     * @allow (create) User with ID 'user123' creates an order item within their order.
+     * @allow (get) User with ID 'user123' reads their order item.
+     * @allow (update) User with ID 'user123' updates their order item.
+     * @allow (delete) User with ID 'user123' deletes their order item.
+     * @deny (create) User with ID 'user123' tries to create an order item for user 'user456'.
+     * @deny (get) User with ID 'user123' tries to read the order item of user 'user456'.
+     * @principle Enforces document ownership for writes.
+     */
+    match /users/{userId}/orders/{orderId}/orderItems/{orderItemId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
+    }
+  }
+
+  // Helper functions
+  function isSignedIn() {
+    return request.auth != null;
+  }
+
+  function isOwner(userId) {
+    return isSignedIn() && request.auth.uid == userId;
+  }
+
+    function isExistingOwner(userId) {
+    return isOwner(userId) && resource != null;
+  }
+}

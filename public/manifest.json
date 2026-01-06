@@ -1,0 +1,28 @@
+
+{
+  "name": "VI&MO Sťahovanie a Upratovanie",
+  "short_name": "VI&MO",
+  "description": "Profesionálne sťahovanie, vypratávanie a upratovanie v Bratislave a okolí.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#00202e",
+  "theme_color": "#35D86D",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/maskable_icon.png",
+      "sizes": "196x196",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -20,8 +20,12 @@ import { PostNavigation } from '@/components/blog/PostNavigation';
 import { WordCount } from '@/components/blog/WordCount';
 import { PrintButton } from '@/components/blog/PrintButton';
 import { Comments } from '@/components/blog/Comments';
-import { PasswordProtectedPost } from './PasswordProtectedPost';
+import dynamic from 'next/dynamic';
 import BlogPostContent from './BlogPostContent';
+
+const PasswordProtectedPost = dynamic(() => import('./PasswordProtectedPost').then(mod => ({ default: mod.PasswordProtectedPost })), {
+  ssr: false,
+});
 
 type Props = {
   params: { slug: string };

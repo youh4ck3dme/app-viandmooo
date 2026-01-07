@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const archiveUrl = `${siteUrl}/blog/${year}/${String(month).padStart(2, '0')}`;
+  const archiveUrl = `${siteUrl}/blog/archiv/${year}/${String(month).padStart(2, '0')}`;
   const monthName = monthNames[month - 1];
 
   return {
@@ -135,8 +135,8 @@ export default function ArchivePage({ params }: Props) {
   const monthName = monthNames[month - 1];
   const breadcrumbItems = [
     { label: 'Blog', href: '/blog' },
-    { label: `${year}`, href: `/blog/${year}` },
-    { label: `${monthName}`, href: `/blog/${year}/${String(month).padStart(2, '0')}`, active: true },
+    { label: `${year}`, href: `/blog/archiv/${year}` },
+    { label: `${monthName}`, href: `/blog/archiv/${year}/${String(month).padStart(2, '0')}`, active: true },
   ];
 
   // Structured Data pre archív
@@ -145,7 +145,7 @@ export default function ArchivePage({ params }: Props) {
     '@type': 'CollectionPage',
     name: `Blog Archív - ${monthName} ${year}`,
     description: `Prehľad všetkých článkov publikovaných v ${monthName} ${year}`,
-    url: `${siteUrl}/blog/${year}/${String(month).padStart(2, '0')}`,
+    url: `${siteUrl}/blog/archiv/${year}/${String(month).padStart(2, '0')}`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: allPosts.length,
@@ -185,7 +185,7 @@ export default function ArchivePage({ params }: Props) {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  baseUrl={`/blog/${year}/${String(month).padStart(2, '0')}`}
+                  baseUrl={`/blog/archiv/${year}/${String(month).padStart(2, '0')}`}
                 />
               )}
             </>

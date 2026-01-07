@@ -49,7 +49,7 @@ export async function GET(
 <rss version="2.0">
   <channel>
     <title><![CDATA[VI&MO Blog - Archív: ${monthName} ${year}]]></title>
-    <link>${siteUrl}/blog/${year}/${String(month).padStart(2, '0')}</link>
+    <link>${siteUrl}/blog/archiv/${year}/${String(month).padStart(2, '0')}</link>
     <description><![CDATA[Články publikované v ${monthName} ${year} na blogu VI&MO]]></description>
     <language>sk</language>
     ${items}

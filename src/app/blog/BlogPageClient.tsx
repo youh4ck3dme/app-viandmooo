@@ -127,7 +127,7 @@ export default function BlogPageClient({ initialPosts }: BlogPageClientProps = {
               <div className="mb-8 md:mb-12">
                 <p className="text-sm md:text-base text-muted-foreground">
                   {searchTerm.trim() ? (
-                    <>Nájdených {displayPosts.length} {displayPosts.length === 1 ? 'článok' : displayPosts.length < 5 ? 'články' : 'článkov'} pre "{searchTerm}"</>
+                    <>Nájdených {displayPosts.length} {displayPosts.length === 1 ? 'článok' : displayPosts.length < 5 ? 'články' : 'článkov'} pre &quot;{searchTerm}&quot;</>
                   ) : (
                     <>Zobrazuje sa {displayPosts.length} {displayPosts.length === 1 ? 'článok' : displayPosts.length < 5 ? 'články' : 'článkov'}</>
                   )}

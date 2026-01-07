@@ -42,7 +42,7 @@ export function ArchiveWidget({ posts, className }: ArchiveWidgetProps) {
           return (
             <li key={key}>
               <Link
-                href={`/blog/${year}/${month}`}
+                href={`/blog/archiv/${year}/${month}`}
                 className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors group"
               >
                 <div className="flex items-center gap-2">

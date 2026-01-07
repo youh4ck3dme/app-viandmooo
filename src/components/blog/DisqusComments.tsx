@@ -24,7 +24,7 @@ export function DisqusComments({ postSlug, postTitle, className }: DisqusComment
     if (window.DISQUS) {
       window.DISQUS.reset({
         reload: true,
-        config: function () {
+        config: function (this: any) {
           this.page.identifier = postSlug;
           this.page.url = `${window.location.origin}${pathname}`;
           this.page.title = postTitle;

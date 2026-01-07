@@ -91,7 +91,6 @@ export function SearchAutocomplete({ onSelect, className }: SearchAutocompletePr
           className="w-full pl-10 pr-4 py-2 h-11 md:h-12 rounded-lg border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
           aria-label="Hľadať v blog článkoch"
           aria-autocomplete="list"
-          aria-expanded={showSuggestions}
           aria-controls="search-suggestions"
         />
       </div>

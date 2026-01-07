@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const archiveUrl = `${siteUrl}/blog/${year}`;
+  const archiveUrl = `${siteUrl}/blog/archiv/${year}`;
 
   return {
     title: `Blog Archív - ${year} | VI&MO`,
@@ -130,7 +130,7 @@ export default function YearArchivePage({ params }: Props) {
 
   const breadcrumbItems = [
     { label: 'Blog', href: '/blog' },
-    { label: `${year}`, href: `/blog/${year}`, active: true },
+    { label: `${year}`, href: `/blog/archiv/${year}`, active: true },
   ];
 
   const monthNames = [
@@ -144,7 +144,7 @@ export default function YearArchivePage({ params }: Props) {
     '@type': 'CollectionPage',
     name: `Blog Archív - ${year}`,
     description: `Prehľad všetkých článkov publikovaných v roku ${year}`,
-    url: `${siteUrl}/blog/${year}`,
+    url: `${siteUrl}/blog/archiv/${year}`,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: allPosts.length,
@@ -184,7 +184,7 @@ export default function YearArchivePage({ params }: Props) {
                 .map(month => (
                   <Link
                     key={month}
-                    href={`/blog/${year}/${String(month).padStart(2, '0')}`}
+                    href={`/blog/archiv/${year}/${String(month).padStart(2, '0')}`}
                     className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-primary hover:text-primary-foreground rounded-lg transition-colors text-sm"
                   >
                     <Calendar className="w-4 h-4" />
@@ -200,7 +200,7 @@ export default function YearArchivePage({ params }: Props) {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  baseUrl={`/blog/${year}`}
+                  baseUrl={`/blog/archiv/${year}`}
                 />
               )}
             </>

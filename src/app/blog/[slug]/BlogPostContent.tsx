@@ -16,7 +16,7 @@ import { WordCount } from '@/components/blog/WordCount';
 import { PrintButton } from '@/components/blog/PrintButton';
 import { Comments } from '@/components/blog/Comments';
 import type { BlogPost } from '@/lib/blog-posts';
-import { sortedByDate } from './page';
+import { blogPosts } from '@/lib/blog-posts';
 
 interface BlogPostContentProps {
   post: BlogPost;
@@ -25,6 +25,11 @@ interface BlogPostContentProps {
 export default function BlogPostContent({ post }: BlogPostContentProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://app.viandmo.com';
   const imageUrl = post.image.startsWith('http') ? post.image : `${siteUrl}${post.image}`;
+
+  // Sort posts by date for navigation
+  const sortedByDate = blogPosts
+    .filter(p => p.status === 'published' && p.visibility === 'public')
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   // Prev/Next navigation
   const currentIndex = sortedByDate.findIndex((p) => p.slug === post.slug);

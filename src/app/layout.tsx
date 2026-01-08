@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Playfair_Display, Inter } from 'next/font/google';
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 
 const APP_NAME = "VI&MO";
 const APP_DEFAULT_TITLE = "Sťahovanie Bytov a Firiem Bratislava | VI&MO";
@@ -10,6 +11,7 @@ const APP_TITLE_TEMPLATE = "%s | VI&MO";
 const APP_DESCRIPTION = "Profesionálne sťahovanie bytov, domov a firiem v Bratislave a okolí. Ponúkame aj vypratávanie a upratovacie služby. Získajte nezáväznú cenovú ponuku.";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://app.viandmo.com';
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -62,6 +64,11 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  ...(googleSiteVerification && {
+    verification: {
+      google: googleSiteVerification,
+    },
+  }),
   alternates: {
     languages: {
       'sk': siteUrl,
@@ -147,6 +154,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.google.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.facebook.com" />
         <link rel="dns-prefetch" href="https://www.instagram.com" />
         
@@ -162,6 +171,7 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body antialiased')}>
+        <GoogleAnalytics />
         {children}
       </body>
     </html>

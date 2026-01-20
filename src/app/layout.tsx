@@ -1,9 +1,9 @@
-
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Playfair_Display, Inter } from 'next/font/google';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { LocalBusinessSchema } from '@/components/seo/LocalBusinessSchema';
 
 const APP_NAME = "VI&MO";
 const APP_DEFAULT_TITLE = "Sťahovanie Bytov a Firiem Bratislava | VI&MO";
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: '/og-image.jpg', // Odkaz na predvolený OG obrázok
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'VI&MO Sťahovanie a Upratovanie v Bratislave',
@@ -93,16 +93,18 @@ const fontBody = Inter({
 });
 
 
-// Structured Data pre organizáciu
+// Structured Data pre organizáciu (Organization schema)
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "MovingCompany",
+  "@id": `${siteUrl}/#organization`,
   "name": "VI and MO s. r. o.",
   "description": "Profesionálne sťahovanie bytov, domov a firiem v Bratislave a okolí. Rýchlo, férovo a bez starostí. Ponúkame aj vypratávanie a upratovacie služby.",
   "telephone": "+421911275755",
   "email": "info@viandmo.com",
   "url": siteUrl,
   "logo": `${siteUrl}/viandmo_logo.png`,
+  "image": `${siteUrl}/og-image.jpg`,
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Karpatské námestie 7770/10A",
@@ -111,17 +113,58 @@ const organizationSchema = {
     "postalCode": "831 06",
     "addressCountry": "SK"
   },
-  "areaServed": {
-    "@type": "GeoCircle",
-    "geoMidpoint": {
-      "@type": "GeoCoordinates",
-      "latitude": "48.148598",
-      "longitude": "17.107748"
-    },
-    "geoRadius": "50000"
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 48.148598,
+    "longitude": 17.107748
   },
-  "openingHours": "Mo-Su 08:00-20:00",
+  "areaServed": [
+    {
+      "@type": "AdministrativeArea",
+      "name": "Bratislava I",
+      "description": "Staré Mesto"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Bratislava II",
+      "description": "Ružinov, Vrakuňa, Podunajské Biskupice"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Bratislava III",
+      "description": "Nové Mesto, Rača, Vajnory"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Bratislava IV",
+      "description": "Karlova Ves, Dúbravka, Lamač, Devín, Devínska Nová Ves, Záhorská Bystrica"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Bratislava V",
+      "description": "Petržalka, Jarovce, Rusovce, Čunovo"
+    },
+    {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": 48.148598,
+        "longitude": 17.107748
+      },
+      "geoRadius": "50000"
+    }
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "08:00",
+      "closes": "20:00"
+    }
+  ],
   "priceRange": "€€",
+  "currenciesAccepted": "EUR",
+  "paymentAccepted": "Cash, Credit Card, Bank Transfer",
   "founder": {
     "@type": "Person",
     "name": "Miroslav Danihel"
@@ -144,9 +187,7 @@ const organizationSchema = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="sk" className={cn(fontBody.variable, fontHeadline.variable, "dark")} suppressHydrationWarning>
       <head>
@@ -172,6 +213,16 @@ export default function RootLayout({
       </head>
       <body className={cn('font-body antialiased')}>
         <GoogleAnalytics />
+        {/* LocalBusinessSchema komponent pre dodatočné štruktúrované dáta */}
+        <LocalBusinessSchema 
+          name="Viandmo"
+          image={`${siteUrl}/og-image.jpg`}
+          priceRange="€€"
+          telephone="+421911275755"
+          email="info@viandmo.com"
+          url={siteUrl}
+          description="Profesionálne sťahovacie služby v Bratislave a okolí. Sťahovanie bytov, domov, kancelárií a ťažkých bremien."
+        />
         {children}
       </body>
     </html>
